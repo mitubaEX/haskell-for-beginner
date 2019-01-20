@@ -7,14 +7,14 @@ sumList :: List Integer -> Integer
 sumList (Cons a b) = a + sumList b
 sumList Nil        = 0
 
-cons :: a -> List a -> List a
-cons = Cons
+-- cons :: a -> List a -> List a
+-- cons = Cons
 
-myConcat (Cons x xs) ys = x `cons` myConcat xs ys
-myConcat Nil ys         = ys
+-- myConcat (Cons x xs) ys = x `cons` myConcat xs ys
+-- myConcat Nil ys         = ys
 
-instance Semigroup (List n) where
-  Cons x xs <> Cons y ys = myConcat (Cons x xs) (Cons y ys)
+-- instance Semigroup (List n) where
+--   Cons x xs <> Cons y ys = myConcat (Cons x xs) (Cons y ys)
 
 -- class Semigroup a where
 --   (<>) :: a -> a -> a
@@ -43,9 +43,9 @@ instance Semigroup (List n) where
 --   -- Defined in ‘GHC.Base’
 -- instance Semigroup () -- Defined in ‘GHC.Base’
 
-instance Monoid (List n) where
-  mempty = Nil
-  mappend = myConcat
+-- instance Monoid (List n) where
+--   mempty = Nil
+--   mappend = myConcat
 
 -- class Semigroup a => Monoid a where
 --   mempty :: a
@@ -101,4 +101,5 @@ instance Foldable List where
 -- instance Foldable ((,) a) -- Defined in ‘Data.Foldable’
 --
 main = print $ foldr Cons Nil initList
+-- main = print $ sumList initList
 -- main = print $ myConcat initList initList
