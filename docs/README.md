@@ -170,6 +170,21 @@ main = print $ sumList initList
 そしてその型クラスの制約のもとそのデータ型を取り扱えます．
 さっそく先ほどのList型をインスタンス化しましょう．
 今回は`foldr`を実行するために`Foldable class`の関数を実装し，インスタンス化します．
+
+なぜインスタンス化しないといけないか？なのですが，まずは`foldr`の定義を見てみましょう．
+
+```sh
+class Foldable (t :: * -> *) where # 型パラメータ t
+  Data.Foldable.fold :: Monoid m => t m -> m
+  foldMap :: Monoid m => (a -> m) -> t a -> m
+  foldr :: (a -> b -> b) -> b -> t a -> b # 3つ目の引数にt型を要求している
+  ...
+```
+
+ここでは，Foldable型の変数を`t`と置いており，foldrでは3つ目の引数に`t`型を要求しています．
+このことから，今回作成した`List`が`Foldable`のように振舞ってくれないと`foldr`を実行できないことになります．
+こういった制約のことを型クラス制約と呼び，これにより既存の関数に自身の型を適応させていくことが比較的容易にできます．
+
 以下が完成形のコードです．
 
 ```haskell
@@ -195,7 +210,7 @@ main = print $ foldr Cons Nil initList
 なのでエラーが出たら大人しくそれ通りに実装しましょう．
 
 ```sh
-• No instance for (Foldable List) arising from a use of ‘foldr’
+• No instance for (Foldable List) arising from a use of ‘foldr’ # Foldable classのインスタンスではない！？
 ```
 
 
